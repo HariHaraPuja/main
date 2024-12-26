@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <link rel="stylesheet" href="styles1.css">
+
+    <!-- Firebase Modular SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+        // Firebase configuration (replace with your project's config)
+        const firebaseConfig = {
+
+
+  apiKey: "AIzaSyDSIR6_nlqWD2EDGx7fQgVrGDLmThHGWMA",
+
+
+  authDomain: "hari-har-puja.firebaseapp.com",
+
+
+  databaseURL: "https://hari-har-puja-default-rtdb.firebaseio.com",
+
+
+  projectId: "hari-har-puja",
+
+
+  storageBucket: "hari-har-puja.firebasestorage.app",
+
+
+  messagingSenderId: "688705439159",
+
+
+  appId: "1:688705439159:web:6b0bbf3013d38aa74b5432",
+
+
+  measurementId: "G-2X8YLLZVE7"
+
+
+};
+        
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Add event listener for the form submission
+        document.getElementById("booking-form").addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            // Collect form data
+            const name = document.getElementById("name").value;
+            const telephone = document.getElementById("telephone").value;
+            const email = document.getElementById("email").value;
+            const service = document.getElementById("service").value;
+            const date = document.getElementById("date").value;
+            const address = document.getElementById("address").value;
+
+            // Push data to Firebase Realtime Database
+            try {
+                const bookingRef = ref(database, "bookings");
+                const newBookingRef = push(bookingRef);
+                await set(newBookingRef, {
+                    name,
+                    telephone,
+                    email,
+                    service,
+                    date,
+                    address,
+                    timestamp: new Date().toISOString(),
+                });
+                alert("Booking successful!");
+                document.getElementById("booking-form").reset(); // Reset the form
+            } catch (error) {
+                console.error("Error submitting booking:", error);
+                alert("Failed to submit booking. Please try again.");
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+    <div class="container">
+        <div class="logo"><img src="Hari.png" alt="Hari Har Puja logo" style="width:60px;height: 60px;border-radius: 50px;"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">About</a></li>
+                <li><a href="index.html">Services</a></li>
+                <li><a href="#booking">Booking</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    <section id="booking">
+        <div class="container">
+            <h2>Book a Service</h2>
+            <form id="booking-form">
+            <input type="text" id="name" placeholder="Enter Your Name" required><br>
+            <input type="tel" id="telephone" placeholder="Enter Mobile No." required><br>
+            <input type="email" id="email" placeholder="Enter Your Email Address"><br>
+            <label for="service">Choose the Service:</label><br>
+            <select id="service">
+                <option value="Pujas">Pujas</option>
+                <option value="Havans">Havans</option>
+                <option value="Jaaps">Jaaps</option>
+                <option value="Paaths">Paaths</option>
+                <option value="Bhajans & Chowki">Bhajans & Chowki</option>
+                <option value="Festival Pujas">Festival Pujas</option>
+                <option value="Shanti Pujas">Shanti Pujas</option>
+                <option value="Pitru Pujas">Pitru Pujas</option>
+                <option value="Others">Others</option>
+            </select><br>
+            <label for="date" >Preferred Date:</label><br>
+            <input type="date" id="date" required><br>
+            <input type="text" id="address" placeholder="Enter Your Address" required><br>
+            <button type="submit" class="cta-btn">Book Now</button>
+        </form>
+        </div>
+    </section>
+<footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="Hari.png" alt="Hari Har Puja logo" style="width:60px;height: 60px;">
+                    <p>Hari Har Puja</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#booking">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Email: info@hariharpuja.com</p>
+                    <p>Phone: +91 1234567890</p>
+                </div>
+            </div>
+            <p class="copyright">© 2024 Hari Har Puja. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
